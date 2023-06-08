@@ -76,6 +76,10 @@ class ExamInterface:
                 rb.pack(fill='both')
 
     def next_question(self):
+        answer = self.option_var.get()
+        self.generator.record_answer(self.student_id, self.current_question_type, self.current_question, answer)
+        print(
+            f"Student ID: {self.student_id}, Question Type: {self.current_question_type}, Question: {self.current_question}, Answer: {answer}")
         if self.current_question_type == "选择题":
             answer = self.option_var.get()
         elif self.current_question_type == "判断题":
@@ -110,9 +114,10 @@ class ExamInterface:
         self.display_question()
 
     def submit_exam(self):
-        # 记录最后一题的答案
         answer = self.option_var.get()
         self.generator.record_answer(self.student_id, self.current_question_type, self.current_question, answer)
+        print(
+            f"Student ID: {self.student_id}, Question Type: {self.current_question_type}, Question: {self.current_question}, Answer: {answer}")
         selected_option = None
         for rb in self.options_frame.winfo_children():
             if rb['variable'] == self.option_var and rb['value'] == self.option_var.get():
